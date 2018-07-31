@@ -29,31 +29,13 @@ func main() {
 	var ff *os.File
 	var err error
 	var tentativeFile *string = new(string)
-
-	// (1) 一時ファイル作成，且つ前回起動時のゴミファイルを削除する
-	var initialize *os.File = nil
-	var initializeFileName string = ""
-	//var absolutePath string = ""
 	var myError error = nil
-	// ※戻り値 => *os.File, error を返却
-	initialize, myError = ioutil.TempFile("", "__php__main__")
-	defer initialize.Close()
-	if myError != nil {
-		format(myError.Error())
-		os.Exit(255)
-	}
-	initialize.Chmod(os.ModePerm)
-	// ファイルポインタから当該のファイルパスを取得(rootからの絶対パスを取得)
-	initializeFileName = initialize.Name()
-	// 念の為Absメソッドで絶対パスを取得
-	initializeFileName, myError = filepath.Abs(initializeFileName)
-	if myError != nil {
-		format(myError.Error())
-		os.Exit(255)
-	}
-
 	// ダミー実行ポインタ
 	ff, myError = ioutil.TempFile("", "__php__main__")
+	// ダミー実行ファイルポインタ
+	var ffFileName *string = new(string)
+	*ffFileName = ff.Name()
+	fmt.Println(*ffFileName)
 	if myError != nil {
 		format(myError.Error())
 		os.Exit(1)
@@ -65,6 +47,7 @@ func main() {
 		os.Exit(1)
 	}
 	*tentativeFile = ff.Name()
+	*tentativeFile, myError = filepath.Abs(ff.Name())
 	defer ff.Close()
 	defer os.Remove(*tentativeFile)
 
