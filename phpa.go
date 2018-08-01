@@ -182,6 +182,7 @@ func main() {
 	scanner = bufio.NewScanner(os.Stdin)
 	for {
 		runtime.GC()
+		debug.FreeOSMemory()
 		// ループ開始時に正常動作するソースのバックアップを取得
 		ff.Seek(0, 0)
 		backup, myError = ioutil.ReadAll(ff)
