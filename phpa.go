@@ -1,6 +1,18 @@
 package main
 
+/*
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+int get_c_string_length (char* message) {
+	int len = 0;
+	len = strlen(message);
+	return(len);
+}
+extern int get_c_string_length(char* message);
+*/
 import (
+	"C"
 	"bufio"
 	"errors"
 	"fmt"
@@ -16,6 +28,43 @@ import (
 	"syscall"
 )
 
+/*
+// 関数ポインタの型宣言
+	char* sample_function (char* a, char* b) {
+		char* inner_char =(char*)malloc(sizeof(char) * (strlen(a) + strlen(b) + 1));
+		strcpy(inner_char, a);
+		strcpy(inner_char + strlen(a), b);
+		return (inner_char);
+	}
+int main () {
+
+	char* (*get_char_pointer)(char*, char*);
+	get_char_pointer = sample_function;
+	printf("%s", get_char_pointer("あいうえお", "かきくけこ"));
+}
+
+
+
+	int function_which_take_function ( int (*local_function) (int, int), int a, int b) {
+		int inner_int = 0;
+		inner_int = local_function (a, b);
+		return (inner_int);
+	}
+	// プロトタイプ宣言
+	int temp_function (int, int);
+	typedef int (*Format)(int, int);
+	int main () {
+		Format ff;
+		ff = temp_function;
+		printf("%d", ff(12,34));
+		printf("%d", function_which_take_function (temp_function, 3, 7));
+	}
+	int temp_function (int a, int b) {
+		int inner_total = a + b;
+		return (inner_total);
+	}
+
+*/
 var format func(...interface{}) (int, error) = fmt.Println
 var myPrint func(...interface{}) (int, error) = fmt.Print
 
